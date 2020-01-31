@@ -1,0 +1,303 @@
+shinyServer(function(input, output, session) {
+  
+  source("srv-demo.R", local = TRUE)
+  
+  
+  # login status and info will be managed by shinyauthr module and stores here
+  
+  # logout status managed by shinyauthr module and stored here
+ 
+  
+  
+  
+ 
+ 
+ 
+  
+  
+  # only when credentials()$user_auth is TRUE, render your desired sidebar menu
+  output$sidebar <- renderMenu({
+    
+    
+      
+    
+    
+    
+    sidebarMenu(id = "tabs",
+                
+                menuItem("Datos", tabName = "datos", icon = icon("fal fa-database"),
+                         menuSubItem("Capital requerido", tabName = "subitem1", icon = icon("circle-o")),
+                         menuSubItem("Pérdida por Incumplimiento", tabName = "subitem2", icon = icon("circle-o")),
+                         menuSubItem("Matriz de Transición", tabName = "subitem3", icon = icon("circle-o")),
+                         menuSubItem("CreditRisk+", tabName = "datini", icon = icon("circle-o")),
+                         menuSubItem("CreditMetrics", tabName = "CRED", icon = icon("circle-o")),
+                         menuSubItem("Backtesting", tabName = "datos_back", icon = icon("circle-o")),
+                         menuSubItem("Indicadores Contables", tabName = "RAROC", icon = icon("circle-o"))
+                ),
+                
+                menuItem("Requerimiento de capital", tabName = "subitem1-1", icon = icon("fal fa-database"),
+                         menuSubItem("Enfoque estandarizado", tabName = "ES", icon = icon("circle-o")),
+                         menuSubItem("Enfoque básico", tabName = "EB", icon = icon("circle-o")),
+                         menuSubItem("Enfoque estandarizado (II)", tabName = "ES2", icon = icon("circle-o"))
+                         
+                ),
+                
+                
+                menuItem("Pérdida por Incumplimiento", tabName = "LGD", icon = icon("fal fa-database"),
+                         menuSubItem("Pérdida por Cliente", tabName = "lgd", icon = icon("circle-o")),
+                         menuSubItem("Pérdida Por Clase", tabName = "CPC", icon = icon("circle-o"))
+                         
+                         
+                ),
+                
+                
+                menuItem("Matriz de Transición", tabName = "MT", icon = icon("fal fa-database"),
+                         
+                         menuSubItem("Matriz de Transición", tabName = "CMT", icon = icon("circle-o"))
+                         
+                ),
+                
+                
+                menuItem("CreditRisk+", tabName = "data", icon = icon("fal fa-database"),
+                         
+                         
+                         menuSubItem("Resultados", tabName = "Param", icon = icon("circle-o")),
+                         menuSubItem("Stress Testing", tabName = "ST1", icon = icon("circle-o"))
+                ),
+                
+                
+                menuItem("Creditmetrics", icon = icon("fal fa-database"), tabName = "crm",
+                         
+                         menuSubItem("Simulación y Resultados", tabName = "RES", icon = icon("circle-o")),
+                         menuSubItem("Stress Testing", tabName = "ST2", icon = icon("circle-o"))
+                         
+                ),
+                menuItem("Backtesting", icon = icon("fal fa-database"), 
+                         
+                         menuSubItem("Resultados", tabName = "resultados_back", icon = icon("circle-o"))
+                ),
+                
+                menuItem("Indicadores Contables", icon = icon("exclamation-circle"), tabName = "raroc",
+                         menuSubItem("Indicadores Contables", tabName = "Mor", icon = icon("circle-o"))
+                         
+                ),
+                
+                
+                menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca"),
+                
+                
+                  actionButton("help2", "Instrucciones")
+                
+                )
+  
+    
+  })
+  
+  
+  
+### Capital requerido
+  
+  
+  datasetInput <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data
+    
+    if (is.null(inFile))
+      return(NULL)
+    read.table(inFile$datapath, header = input$header,
+               sep = input$sep, quote = input$quote)
+    
+  })
+  
+  
+  
+  ####### Datos de ejemplo de una institucion financiera alemana###
+  
+  datasetSelect <- reactive({
+    datasetSelect <- stand1
+  })
+  
+  
+  ###### Cargando datos con que se trabajara: entre los de ejemplo y los propios
+  
+  data1 <- reactive({
+    if(input$dataset && !input$userFile){
+      data <- datasetSelect()}
+    
+    else if(!input$dataset && input$userFile){
+      data <- datasetInput()
+    }
+  })
+  
+  
+  ####Se muestran los datos
+  
+  
+  output$datatable<-renderDataTable({
+    data1()
+  },options = list(scrollX=T,scrollY=300))
+  
+  
+  
+  #
+  a <- reactive(ildc(mean(as.numeric(data1()[1,2:4])),mean(as.numeric(data1()[2,2:4])),mean(as.numeric(data1()[3,2:4])),mean(as.numeric(data1()[4,2:4]))))
+  b <- reactive( sc(mean(as.numeric(data1()[5,2:4])),mean(as.numeric(data1()[6,2:4])),mean(as.numeric(data1()[7,2:4])),mean(as.numeric(data1()[8,2:4]))))
+  c <- reactive(fc(mean(as.numeric(data1()[9,2:4])),mean(as.numeric(data1()[10,2:4]))))
+  d <- reactive(bi(a(),b(),c()))
+  e <- reactive( bic(d()))
+  f <- reactive(ilm(as.numeric(data1()[11,2]),e()))
+  h <- reactive(orc(e(),f()))
+  
+  
+  
+  output$ILDC<- renderText({a()})
+  output$SC <- renderText({b()})
+  output$FC <- renderText({c()})
+  
+  output$BI <- renderText({ 
+    
+    d()
+    
+    })
+  
+  output$BIC <- renderText({ 
+    
+   e()
+    
+  })
+  
+  output$ILM <- renderText({ 
+    
+    f()
+    
+  })
+  
+  output$CR <- renderText({ 
+    
+    h()
+    
+  })
+  
+  
+  
+  
+  datasetInput2 <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data2
+    
+    if (is.null(inFile))
+      return(NULL)
+    read.table(inFile$datapath, header = input$header2,
+               sep = input$sep2, quote = input$quote2)
+    
+  })
+  
+  
+  
+  ####### Datos de ejemplo de una institucion financiera alemana###
+  
+  datasetSelect2 <- reactive({
+    datasetSelect <- basi1
+  })
+  
+  
+  ###### Cargando datos con que se trabajara: entre los de ejemplo y los propios
+  
+  data2 <- reactive({
+    if(input$dataset2 && !input$userFile2){
+      data <- datasetSelect2()}
+    
+    else if(!input$dataset2 && input$userFile2){
+      data <- datasetInput2()
+    }
+  })
+  
+  
+  ####Se muestran los datos
+  
+  
+  output$datatable2<-renderDataTable({
+    data2()
+  },options = list(scrollX=T,scrollY=300))
+  
+  
+  
+  
+  a1 <- reactive(bas(data2()[1,2:4],data2()[2,2]))
+  
+  
+  output$CR1 <- renderText({ 
+    
+    a1()
+    
+  })
+  
+  
+  datasetInput3 <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data3
+    
+    if (is.null(inFile))
+      return(NULL)
+    read.table(inFile$datapath, header = input$header3,
+               sep = input$sep3, quote = input$quote3)
+    
+  })
+  
+  
+  
+  ####### Datos de ejemplo de una institucion financiera alemana###
+  
+  datasetSelect3 <- reactive({
+    datasetSelect3 <- stand2
+  })
+  
+  
+  ###### Cargando datos con que se trabajara: entre los de ejemplo y los propios
+  
+  data3 <- reactive({
+    if(input$dataset3 && !input$userFile3){
+      data <- datasetSelect3()}
+    
+    else if(!input$dataset3 && input$userFile3){
+      data <- datasetInput3()
+    }
+  })
+  
+  
+  ####Se muestran los datos
+  
+  
+  output$datatable3<-renderDataTable({
+    data3()
+  },options = list(scrollX=T,scrollY=300))
+  
+  
+  
+
+  
+  a2 <- reactive(rc2(cbind(data3()[2],data3()[3],data3()[4])))
+  
+  output$CR2 <- renderText({ 
+    
+   a2()
+    
+   
+  })
+  
+})
