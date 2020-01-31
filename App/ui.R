@@ -618,16 +618,32 @@ shinyUI(
                                        
                                        
                                        
+                                       tabPanel( title = tagList(shiny::icon("gear"), strong('Ecuaciones y formulas')),
+                                                 
+                                                   withMathJax(),
+                                                   box(width=12,  status = "warning",solidHeader = T,title = "El componente de intereses, arrendamientos y dividendos (ILDC)", uiOutput("for1")),
+                                                   box(width=12,  status = "warning",solidHeader = T,title = "El componente de servicios (SC)", uiOutput("for2")),
+                                                   
+                                                   box(width=12,status = "warning",solidHeader = T,title = "El componente de finanzas (FC)", uiOutput("for3")),
+                                                   box(width=12,status = "warning",solidHeader = T,title = "El indicador de negocios (BI)", uiOutput("for4")),
+                                                   box(width=12,status = "warning",solidHeader = T,title = "El indicador de negocios (BIC)", uiOutput("for5")),
+                                                   box(width=12,status = "warning",solidHeader = T,title = "El multiplo de pérdida interna (ILM)", uiOutput("for6"))
+                                                   
+                                                 ),
                                        
                                        
                                        tabPanel( title = tagList(shiny::icon("gear"), strong('Métricas y capital requerido')),
+                                                
+                                                 
+                                                 
                                                  fluidRow(
+                                                   
                                                    box(width = 12 ,
                                                        fluidRow(column(4,box(width=12,status = "warning",solidHeader = T,title = h3("ILDC"),h3(textOutput("ILDC")))),column(4,box(width=12,solidHeader = T,status = "warning",title = h3("SC"),h3(textOutput("SC")))),column(4, box(width=12,solidHeader = T,status = "warning",title = h3("FC"),h3(textOutput("FC"))))),
                                                        fluidRow(column(4,box(width=12,solidHeader = T,status = "warning",title = h3("BI"),h3(textOutput("BI")))),column(4,box(width=12,solidHeader = T,status = "warning",title = h3("BIC"),h3(textOutput("BIC")))),column(4, box(width=12,solidHeader = T,status = "warning",title = h3("ILM"),h3(textOutput("ILM"))))),
-                                                       fluidRow(column(8,box(width=12,solidHeader = T,status = "warning",title = h3("Capital Requerido"),h3(textOutput("CR")))))
+                                                       fluidRow(column(4,box(width=12,solidHeader = T,status = "warning",title = h3("Capital Requerido"),h3(textOutput("CR")))))
                                                        
-                                                       )
+                                                       
                                                    
                                                  )
                                                  
@@ -639,7 +655,7 @@ shinyUI(
                                                  
                                                  
                                                  
-                                       )
+                                       ))
                                        
                                        
                                        

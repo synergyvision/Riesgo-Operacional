@@ -300,4 +300,28 @@ shinyServer(function(input, output, session) {
    
   })
   
+  output$for1 <- renderUI({
+    withMathJax('$$\\textrm{ILDC}=Min(\\overline{|II-GI|};0.025*\\overline{AI})+\\overline{ID}$$')
+  })
+  
+  output$for2 <- renderUI({
+    withMathJax('$$\\textrm{SC}=Max(\\overline{IO};\\overline{GP})+Max(\\overline{IH};\\overline{GH})$$')
+  })
+  
+  output$for3 <- renderUI({
+    withMathJax('$$\\textrm{FC}=\\overline{|GPN|}+\\overline{|GPM|}$$')
+  })
+  
+  output$for4 <- renderUI({
+    withMathJax('$$\\textrm{BI}=ILDC+SC+FC$$')
+  })
+  
+  output$for5 <- renderUI({
+    withMathJax('$$\\textrm{BIC}=BI*\\alpha_i$$')
+  })
+  
+  output$for6 <- renderUI({
+    withMathJax('$$\\textrm{ILM}=Ln\\bigg{(}e^{1}-1+\\big{(}\\frac{LC}{BIC}\\big{)}^{0.8}\\bigg{)}$$')
+  })
+  
 })
