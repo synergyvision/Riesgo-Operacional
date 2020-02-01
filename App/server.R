@@ -26,13 +26,9 @@ shinyServer(function(input, output, session) {
     sidebarMenu(id = "tabs",
                 
                 menuItem("Datos", tabName = "datos", icon = icon("fal fa-database"),
-                         menuSubItem("Capital requerido", tabName = "subitem1", icon = icon("circle-o")),
-                         menuSubItem("Pérdida por Incumplimiento", tabName = "subitem2", icon = icon("circle-o")),
-                         menuSubItem("Matriz de Transición", tabName = "subitem3", icon = icon("circle-o")),
-                         menuSubItem("CreditRisk+", tabName = "datini", icon = icon("circle-o")),
-                         menuSubItem("CreditMetrics", tabName = "CRED", icon = icon("circle-o")),
-                         menuSubItem("Backtesting", tabName = "datos_back", icon = icon("circle-o")),
-                         menuSubItem("Indicadores Contables", tabName = "RAROC", icon = icon("circle-o"))
+                         menuSubItem("Capital requerido", tabName = "subitem1", icon = icon("circle-o"))
+                         
+                        
                 ),
                 
                 menuItem("Requerimiento de capital", tabName = "subitem1-1", icon = icon("fal fa-database"),
@@ -43,44 +39,9 @@ shinyServer(function(input, output, session) {
                 ),
                 
                 
-                menuItem("Pérdida por Incumplimiento", tabName = "LGD", icon = icon("fal fa-database"),
-                         menuSubItem("Pérdida por Cliente", tabName = "lgd", icon = icon("circle-o")),
-                         menuSubItem("Pérdida Por Clase", tabName = "CPC", icon = icon("circle-o"))
-                         
-                         
-                ),
-                
-                
-                menuItem("Matriz de Transición", tabName = "MT", icon = icon("fal fa-database"),
-                         
-                         menuSubItem("Matriz de Transición", tabName = "CMT", icon = icon("circle-o"))
-                         
-                ),
-                
-                
-                menuItem("CreditRisk+", tabName = "data", icon = icon("fal fa-database"),
-                         
-                         
-                         menuSubItem("Resultados", tabName = "Param", icon = icon("circle-o")),
-                         menuSubItem("Stress Testing", tabName = "ST1", icon = icon("circle-o"))
-                ),
-                
-                
-                menuItem("Creditmetrics", icon = icon("fal fa-database"), tabName = "crm",
-                         
-                         menuSubItem("Simulación y Resultados", tabName = "RES", icon = icon("circle-o")),
-                         menuSubItem("Stress Testing", tabName = "ST2", icon = icon("circle-o"))
-                         
-                ),
-                menuItem("Backtesting", icon = icon("fal fa-database"), 
-                         
-                         menuSubItem("Resultados", tabName = "resultados_back", icon = icon("circle-o"))
-                ),
-                
-                menuItem("Indicadores Contables", icon = icon("exclamation-circle"), tabName = "raroc",
-                         menuSubItem("Indicadores Contables", tabName = "Mor", icon = icon("circle-o"))
-                         
-                ),
+               
+                   
+              
                 
                 
                 menuItem("Acerca", icon = icon("exclamation-circle"), tabName = "acerca"),
