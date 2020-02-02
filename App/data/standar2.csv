@@ -1,9 +1,9 @@
-Lineas de negocio;Año Actual;Año anterior;Segundo a Año anterior
-Finansas coorporativas;14000000;12000000;13000000
-Comercio y ventas;23000000;16000000;19000000
-Banca minorista;3000000;1000000;4000000
-Banca comercial;11000000;10000000;12000000
-Pago y liquidación;3000000;4000000;3000000
-Servicios de Agencia;2000000;1000000;7000000
-Gestion de Activos;11000000;12000000;7000000
-corretaje personal;4000000;5000000;6000000
+Lineas de negocio;Año Actual;Año anterior;Segundo a Año anterior;Alpha;
+Finansas coorporativas (LF1);14000000;12000000;13000000;0.18;
+Comercio y ventas (LF2);23000000;16000000;19000000;0.18;
+Banca minorista (LF3);3000000;1000000;4000000;0.12;
+Banca comercial (LF4);11000000;10000000;12000000;0.15;
+Pago y liquidación (LF5);3000000;4000000;3000000;0.18;
+Servicios de Agencia (LF6);2000000;1000000;7000000;0.15;
+Gestion de Activos (LF7);11000000;12000000;7000000;0.12;
+corretaje personal (LF8);4000000;5000000;6000000;0.12;   

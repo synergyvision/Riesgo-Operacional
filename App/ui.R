@@ -188,7 +188,9 @@ shinyUI(
                                                    box(width=12,status = "warning",solidHeader = T,title = "El componente de finanzas (FC)", uiOutput("for3")),
                                                    box(width=12,status = "warning",solidHeader = T,title = "El indicador de negocios (BI)", uiOutput("for4")),
                                                    box(width=12,status = "warning",solidHeader = T,title = "El indicador de negocios (BIC)", uiOutput("for5")),
-                                                   box(width=12,status = "warning",solidHeader = T,title = "El multiplo de pérdida interna (ILM)", uiOutput("for6"))
+                                                   box(width=12,status = "warning",solidHeader = T,title = "El multiplo de pérdida interna (ILM)", uiOutput("for6")),
+                                                   box(width=12,status = "warning",solidHeader = T,title = "Capital requerido (CR)", uiOutput("for7"))
+                                                 
                                                    
                                                  ),
                                        
@@ -232,6 +234,15 @@ shinyUI(
                             
                             fluidRow(
                               tabBox( height = "1250px", width = 12,side = "left",
+                                      
+                                      
+                                      tabPanel( title = tagList(shiny::icon("gear"), strong('Ecuaciones y formulas')),
+                                                
+                                                withMathJax(),
+                                                box(width=12,  status = "warning",solidHeader = T,title = "Capial requerido", uiOutput("for21"))
+                                                 ),
+                                      
+                                      
                                       tabPanel( title = tagList(shiny::icon("gear"), strong('Métricas y capital requerido')),
                                                 
                                                 
@@ -257,6 +268,19 @@ shinyUI(
                             
                             fluidRow(
                               tabBox( height = "1250px", width = 12,side = "left",
+                                      
+                                      
+                                      
+                                      tabPanel( title = tagList(shiny::icon("gear"), strong('Ecuaciones y formulas')),
+                                                
+                                                withMathJax(),
+                                                box(width=12,  status = "warning",solidHeader = T,title = "Capital requerido (CR)", uiOutput("for31"))
+                                               
+                                      ),
+                                      
+                                      
+                                      
+                                      
                                       tabPanel( title = tagList(shiny::icon("gear"), strong('Métricas y capital requerido')),
                                                 
                                                 

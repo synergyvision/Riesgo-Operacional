@@ -1,6 +1,6 @@
 shinyServer(function(input, output, session) {
   
-  source("srv-demo.R", local = TRUE)
+  
   
   
   # login status and info will be managed by shinyauthr module and stores here
@@ -262,7 +262,7 @@ shinyServer(function(input, output, session) {
   })
   
   output$for1 <- renderUI({
-    withMathJax('$$\\textrm{ILDC}=Min(\\overline{|II-GI|};0.025*\\overline{AI})+\\overline{ID}$$')
+    withMathJax('$$\\textrm{ILDC}=Min(\\overline{|II-GI|};0.025\\times\\overline{AI})+\\overline{ID}$$')
   })
   
   output$for2 <- renderUI({
@@ -278,11 +278,24 @@ shinyServer(function(input, output, session) {
   })
   
   output$for5 <- renderUI({
-    withMathJax('$$\\textrm{BIC}=BI*\\alpha_i$$')
+    withMathJax('$$\\textrm{BIC}=BI\\times\\alpha_i$$')
   })
   
   output$for6 <- renderUI({
     withMathJax('$$\\textrm{ILM}=Ln\\bigg{(}e^{1}-1+\\big{(}\\frac{LC}{BIC}\\big{)}^{0.8}\\bigg{)}$$')
   })
+  
+  output$for7 <- renderUI({
+    withMathJax('$$\\textrm{CR}=BIC\\times ILM$$')
+  })
+  
+  output$for21 <- renderUI({
+    withMathJax('$$\\textrm{CR}=\\sum_{i=1}^3\\frac{IB_i\\times \\alpha}{3}$$')
+  })
+  
+  output$for31 <- renderUI({
+    withMathJax('$$\\textrm{CR}=\\sum_{years=1-3}Max\\bigg{[}\\sum_{i=1}^8LF_i\\times \\alpha_i;0\\bigg{]}\\bigg{/} 3$$')
+  })
+  
   
 })
