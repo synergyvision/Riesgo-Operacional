@@ -40,9 +40,9 @@ library(plyr)
 library(DT)
 
 
-source(paste(getwd(),"estan.R",sep = "/"))
-source(paste(getwd(),"basic.R",sep = "/"))
-source(paste(getwd(),"stan2.R",sep = "/"))
+source(paste(getwd(),"script/estan.R",sep = "/"))
+source(paste(getwd(),"script/basic.R",sep = "/"))
+source(paste(getwd(),"script/stan2.R",sep = "/"))
 
 
 
