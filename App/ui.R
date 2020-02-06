@@ -4,7 +4,7 @@ shinyUI(
     # put the shinyauthr logout ui module in here
     dashboardHeader(
       title = NULL, titleWidth = 188, 
-      tags$li(textOutput("bienvenida"), class = "dropdown", style = "padding: 8px;", shinyauthr::logoutUI(id ="logout",label = "Salir", icon = icon("sign-out")),
+      tags$li(textOutput("bienvenida"), class = "dropdown", style = "padding: 8px;",
              
               
               dropdownMenu(type = "messages",
@@ -230,6 +230,65 @@ shinyUI(
                              )
                     )),
                     
+                    
+                    tabItem(tabName = "subitem2",
+                            
+                            
+                            wellPanel(
+                                      
+                                      
+                                      
+                                      fluidRow(
+                                        
+                                        
+                                        tabBox( height = "1250px", width = 12,side = "left",
+                                                
+                                                tabPanel(title = tagList(shiny::icon("gear"), strong('Incidencias')),
+                                                         
+                                                         fluidRow(column(6,box(background="yellow",width = 200, checkboxInput("dataset4", strong("Datos de Ejemplo"), FALSE))),
+                                                                  column(6,box(background="yellow", width = 200,checkboxInput('userFile4', strong('Datos Propios'), FALSE)))),
+                                                         
+                                                         conditionalPanel(condition = "input.userFile4 == true",
+                                                                          fluidRow(
+                                                                            box(width = 15, title = h3("Cargar el Archivo con los Datos"),
+                                                                                box( width=15,background = "yellow",
+                                                                                     fileInput('file_data4', 'Seleccione el archivo', accept = c('text/csv',
+                                                                                                                                                 'text/comma-separated-values',
+                                                                                                                                                 'text/tab-separated-values',
+                                                                                                                                                 'text/plain',
+                                                                                                                                                 '.csv',
+                                                                                                                                                 '.tsv',
+                                                                                                                                                 '.rda'),
+                                                                                               placeholder = 'Aún no Seleccionas el Archivo...', buttonLabel = 'Buscar' )
+                                                                                ),
+                                                                                fluidRow(
+                                                                                  box(width=4,background="yellow",strong("Encabezado de los Datos"),
+                                                                                      checkboxInput( width="80%", 'header4', "Con Encabezado", TRUE)),
+                                                                                  box(width=4,background="yellow",
+                                                                                      radioButtons( width="40%", 'sep4', "Separador", c('Coma'=',',
+                                                                                                                                        'Punto y coma'=';',
+                                                                                                                                        'Tab'='\t'), ';')),
+                                                                                  box(width=4,background="yellow",
+                                                                                      radioButtons( width="40%", 'quote4', "Comillas", c('Ninguna'='',
+                                                                                                                                         'Comilla doble'='"',
+                                                                                                                                         'Comilla simple'="'"), ''))
+                                                                                  
+                                                                                ))
+                                                                          )),
+                                                         
+                                                         conditionalPanel(condition = "input.userFile4 == true|| input.dataset4 == true",
+                                                                          fluidRow(
+                                                                            box(width=12,style = "overflow-x:scroll",status = "warning",dataTableOutput('datatable4'))
+                                                                          ))
+                                                         
+                                                         
+                                                         
+                                                        
+                                                         
+                                                         
+                                                ))))),
+                    
+                    
                     tabItem(tabName = "EB",wellPanel(id="panel9",
                             
                             fluidRow(
@@ -254,11 +313,6 @@ shinyUI(
                                                   )
                                                   
                                                   ))
-                                      
-                                      
-                                      
-                                      
-                                      
                                       
                                       
                                       
@@ -300,9 +354,40 @@ shinyUI(
                                       
                                       
                               )))),
+                    
+                    tabItem(
+                      tabName = "Prueba",
+                      fluidRow(
+                        
+                        
+                        box(width = 4,
+                            
+                            h2("Tipo de Incidencias"),shinyWidgets::pickerInput(
+                              inputId = "type_filter", 
+                              choices = c("Fraude interno","Fraude externo","Prácticas de empleo y seguridad en el lugar de trabajo",
+                                          "Clientes, productos y prácticas comerciales","Daño a los bienes físicos",
+                                          "Interrupción del negocio y fallas del sistema","Ejecución, entrega y gestión de procesos"), 
+                              options = list(
+                                `actions-box` = TRUE,
+                                `selected-text-format`="count"
+                              ), 
+                              multiple = TRUE,
+                              selected =  c("Fraude interno","Fraude externo","Prácticas de empleo y seguridad en el lugar de trabajo",
+                                            "Clientes, productos y prácticas comerciales","Daño a los bienes físicos",
+                                            "Interrupción del negocio y fallas del sistema","Ejecución, entrega y gestión de procesos")
+                            )),
+                        
+                        
+                        #Nombre de la salida
+                        #tags$b(align="left",h2(textOutput("Contenido", container = span))),
+                        box(width = 8, highchartOutput("hcmap"),
+                            textOutput("Texto"))
+                        
+                        
+                      ))
                    
                    
-                    tabItem(tabName = "acerca",
+                   , tabItem(tabName = "acerca",
                             
                             wellPanel(id="panel20",
                                                          
@@ -328,7 +413,7 @@ shinyUI(
                             )
                     )))
                   )
-    )
+    
   )
 )
-
+)

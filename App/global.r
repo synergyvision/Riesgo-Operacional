@@ -2,42 +2,41 @@
 rm(list = ls())
 
 
-
-library(shinythemes)
-library(shinyjs)
-library(rmarkdown)
-library(dygraphs)
-library(readr)
-library(glue)
-library(webshot)
-library(rintrojs)
 library(highcharter)
-library(GARPFRM)
-library(rugarch)
-library(jsonlite)
-library(neo4r)
-library(dplyr)
-library(shinyauthr)
-library(reactlog)
-library(tidyr)
-library(sodium)
-library(V8)
-library(fastDummies)
-library(readr)
-library(shinyWidgets)
-library(shiny)
+#library(shinythemes)
+
+library(rmarkdown)
+#library(dygraphs)
+#library(readr)
+
+
+#library(rintrojs)
+#library(highcharter)
+
+#library(rugarch)
+#library(jsonlite)
+
+#library(shinyauthr)
+#library(reactlog)
+#library(tidyr)
+#library(sodium)
+#library(readr)
+#library(shinyWidgets)
+
 library(shinydashboard)
-library(latex2exp)
-library(grid)
-library(gridExtra)
-library(plyr)
-library(MASS)
-library(caret)
-library(e1071)
-library(pROC)
-library(plotly)
-library(plyr)
-library(DT)
+#library(latex2exp)
+#library(grid)
+#library(gridExtra)
+#library(plyr)
+#library(MASS)
+#library(caret)
+#library(e1071)
+
+
+
+#library(DT)
+#library(shiny)
+#library(highcharter)
 
 
 source(paste(getwd(),"script/estan.R",sep = "/"))

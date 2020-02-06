@@ -26,7 +26,9 @@ shinyServer(function(input, output, session) {
     sidebarMenu(id = "tabs",
                 
                 menuItem("Datos", tabName = "datos", icon = icon("fal fa-database"),
-                         menuSubItem("Capital requerido", tabName = "subitem1", icon = icon("circle-o"))
+                         menuSubItem("Capital requerido", tabName = "subitem1", icon = icon("circle-o")),
+                         menuSubItem("Incidencias", tabName = "subitem2", icon = icon("circle-o"))
+                         
                          
                         
                 ),
@@ -36,7 +38,20 @@ shinyServer(function(input, output, session) {
                          menuSubItem("Enfoque básico", tabName = "EB", icon = icon("circle-o")),
                          menuSubItem("Enfoque estandarizado (II)", tabName = "ES2", icon = icon("circle-o"))
                          
-                ),
+                )
+                
+                ,
+                
+                menuItem("Incidencias", tabName = "subitem2-1", icon = icon("fal fa-database"),
+                         menuSubItem("Distribución geográfica", tabName = "Prueba", icon = icon("circle-o"))
+                        )
+                         
+                
+                
+                
+                
+                
+                ,
                 
                 
                
@@ -108,8 +123,8 @@ shinyServer(function(input, output, session) {
   #
   a <- reactive(ildc(mean(as.numeric(data1()[1,2:4])),mean(as.numeric(data1()[2,2:4])),mean(as.numeric(data1()[3,2:4])),mean(as.numeric(data1()[4,2:4]))))
   b <- reactive( sc(mean(as.numeric(data1()[5,2:4])),mean(as.numeric(data1()[6,2:4])),mean(as.numeric(data1()[7,2:4])),mean(as.numeric(data1()[8,2:4]))))
-  c <- reactive(fc(mean(as.numeric(data1()[9,2:4])),mean(as.numeric(data1()[10,2:4]))))
-  d <- reactive(bi(a(),b(),c()))
+  c1 <- reactive(fc(mean(as.numeric(data1()[9,2:4])),mean(as.numeric(data1()[10,2:4]))))
+  d <- reactive(bi(a(),b(),c1()))
   e <- reactive( bic(d()))
   f <- reactive(ilm(as.numeric(data1()[11,2]),e()))
   h <- reactive(orc(e(),f()))
@@ -118,7 +133,7 @@ shinyServer(function(input, output, session) {
   
   output$ILDC<- renderText({a()})
   output$SC <- renderText({b()})
-  output$FC <- renderText({c()})
+  output$FC <- renderText({c1()})
   
   output$BI <- renderText({ 
     
@@ -296,6 +311,128 @@ shinyServer(function(input, output, session) {
   output$for31 <- renderUI({
     withMathJax('$$\\textrm{CR}=\\sum_{years=1-3}Max\\bigg{[}\\sum_{i=1}^8LF_i\\times \\alpha_i;0\\bigg{]}\\bigg{/} 3$$')
   })
+  
+  
+  
+  datasetInput4 <- reactive({
+    # input$file1 will be NULL initially. After the user selects
+    # and uploads a file, it will be a data frame with 'name',
+    # 'size', 'type', and 'datapath' columns. The 'datapath'
+    # column will contain the local filenames where the data can
+    # be found.
+    
+    inFile <- input$file_data4
+    
+    if (is.null(inFile))
+      return(NULL)
+    read.table(inFile$datapath, header = input$header4,
+               sep = input$sep4, quote = input$quote4)
+    
+  })
+  
+  
+  
+  ####### Datos de ejemplo de una institucion financiera alemana###
+  
+  datasetSelect4 <- reactive({
+    datasetSelect4 <- stand2
+  })
+  
+  
+  ###### Cargando datos con que se trabajara: entre los de ejemplo y los propios
+  
+  data4 <- reactive({
+    if(input$dataset4 && !input$userFile4){
+      data <- datasetSelect4()}
+    
+    else if(!input$dataset4 && input$userFile4){
+      data <- datasetInput4()
+    }
+  })
+  
+  
+  ####Se muestran los datos
+  
+  
+  output$datatable4<-renderDataTable({
+    data4()
+  },options = list(scrollX=T,scrollY=300))
+  
+  
+ 
+  
+  
+  
+  
+  output$hcmap <- renderHighchart({
+    
+    state_select = JS("function(event) {
+                      Shiny.onInputChange('sel_state', { abb: event.target['hc-a2'], name: event.target.name, nonce: Math.random() });
+  }")
+    
+    state_unselect = JS("function(event) {
+                        // Queue is defined in www/sender-queue.js
+                        queue.send('unsel_state', { abb: event.target['hc-a2'], nonce: Math.random()})
+}")
+    
+    geojson <- download_map_data("countries/ve/ve-all")
+    
+    data <- get_data_from_map(geojson) %>% 
+      select(`hc-key`)
+    
+    data <- mutate(data, value = round(100 * runif(nrow(data)), 2))
+    
+    
+    mapdata <- geojson
+    
+    
+    highchart(type = "map") %>%
+      hc_exporting(
+        enabled = TRUE,
+        buttons = tychobratools::hc_btn_options()
+      ) %>%
+      hc_add_series(
+        mapData = mapdata, 
+        data = list_parse(data), 
+        joinBy = c("hc-key"),
+        allAreas = FALSE,
+        dataLabels = list(enabled = TRUE, format = '{point.value:,.0f}'),
+        name = "Spending by Claim",
+        tooltip = list(
+          valueDecimals = 0, 
+          valuePrefix = "$"
+        )
+      ) %>% 
+      hc_plotOptions(
+        series = list(
+          allowPointSelect = TRUE,
+          states = list(
+            select = list(
+              color = "#32cd32"
+            )
+          ),
+          point = list(
+            events = list(
+              unselect = state_unselect,
+              select = state_select
+            )
+          )
+        )        
+      ) %>%
+      hc_colorAxis(auxpar = NULL) %>%
+      hc_title(text = "Madicare Spending by Claim") %>%
+      hc_subtitle(text = "2015 Q4")
+    
+  })
+  
+  output$Texto <- renderText(c(input$sel_state[[1]],input$sel_state[[2]]))
+  
+  
+  
+  
+  
+  
+  
   
   
 })
