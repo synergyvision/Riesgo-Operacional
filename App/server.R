@@ -360,71 +360,112 @@ shinyServer(function(input, output, session) {
   
   
  
-  
-  
-  
-  
-  output$hcmap <- renderHighchart({
-    
+  grafi <- reactive({
     state_select = JS("function(event) {
-                      Shiny.onInputChange('sel_state', { abb: event.target['hc-a2'], name: event.target.name, nonce: Math.random() });
+       Shiny.onInputChange('sel_state', { abb: event.target['hc-a2'], name: event.target.name, nonce: Math.random() });
   }")
     
     state_unselect = JS("function(event) {
                         // Queue is defined in www/sender-queue.js
                         queue.send('unsel_state', { abb: event.target['hc-a2'], nonce: Math.random()})
-}")
+  }")
     
     geojson <- download_map_data("countries/ve/ve-all")
-    
+    #
     data <- get_data_from_map(geojson) 
-    
+    # 
     data <- mutate(data, value = round(100 * runif(nrow(data)), 2))
-    
-    
+    # 
+    # 
     mapdata <- geojson
+    # 
+    # 
+    # highchart(type = "map") %>%
+    #   hc_exporting(
+    #     enabled = TRUE,
+    #     buttons = tychobratools::hc_btn_options()
+    #   ) %>%
+    #   hc_add_series(
+    #     mapData = mapdata, 
+    #     data = list_parse(data), 
+    #     joinBy = c("hc-a2"),
+    #     allAreas = FALSE,
+    #     dataLabels = list(enabled = TRUE, format = '{point.value:,.0f}'),
+    #     name = "Spending by Claim",
+    #     tooltip = list(
+    #       valueDecimals = 0, 
+    #       valuePrefix = "$"
+    #     )
+    #   ) %>% 
+    #   hc_plotOptions(
+    #     series = list(
+    #       allowPointSelect = TRUE,
+    #       states = list(
+    #         select = list(
+    #           color = "#32cd32"
+    #         )
+    #       ),
+    #       point = list(
+    #         events = list(
+    #           unselect = state_select,
+    #           select = state_unselect
+    #         )
+    #       )
+    #     )        
+    #   ) %>%
+    #   hc_colorAxis(auxpar = NULL) %>%
+    #   hc_title(text = "Venezuela") %>%
+    #   hc_subtitle(text = "Num de incidencias")
+    return(list(highchart(type = "map") %>%
+                  hc_exporting(
+                    enabled = TRUE,
+                    buttons = tychobratools::hc_btn_options()
+                  ) %>%
+                  hc_add_series(
+                    mapData = mapdata, 
+                    data = list_parse(data), 
+                    joinBy = c("hc-a2"),
+                    allAreas = FALSE,
+                    dataLabels = list(enabled = TRUE, format = '{point.value:,.0f}'),
+                    name = "Spending by Claim",
+                    tooltip = list(
+                      valueDecimals = 0, 
+                      valuePrefix = "$"
+                    )
+                  ) %>% 
+                  hc_plotOptions(
+                    series = list(
+                      allowPointSelect = TRUE,
+                      states = list(
+                        select = list(
+                          color = "#32cd32"
+                        )
+                      ),
+                      point = list(
+                        events = list(
+                          unselect = state_unselect,
+                          select = state_select
+                        )
+                      )
+                    )        
+                  ) %>%
+                  hc_colorAxis(auxpar = NULL) %>%
+                  hc_title(text = "Madicare Spending by Claim") %>%
+                  hc_subtitle(text = "2015 Q4"),state_unselect))
     
     
-    highchart(type = "map") %>%
-      hc_exporting(
-        enabled = TRUE,
-        buttons = tychobratools::hc_btn_options()
-      ) %>%
-      hc_add_series(
-        mapData = mapdata, 
-        data = list_parse(data), 
-        joinBy = c("hc-a2"),
-        allAreas = FALSE,
-        dataLabels = list(enabled = TRUE, format = '{point.value:,.0f}'),
-        name = "Spending by Claim",
-        tooltip = list(
-          valueDecimals = 0, 
-          valuePrefix = "$"
-        )
-      ) %>% 
-      hc_plotOptions(
-        series = list(
-          allowPointSelect = TRUE,
-          states = list(
-            select = list(
-              color = "#32cd32"
-            )
-          ),
-          point = list(
-            events = list(
-              unselect = input$unsel_statet,
-              select = input$sel_statet
-            )
-          )
-        )        
-      ) %>%
-      hc_colorAxis(auxpar = NULL) %>%
-      hc_title(text = "Venezuela") %>%
-      hc_subtitle(text = "Num de incidencias")
     
   })
   
-  output$Texto <- renderText(c(input$sel_state[[1]],input$sel_state[[2]]))
+  
+  
+  output$hcmap <- renderHighchart({
+    
+  grafi()[[1]]  
+  
+  })
+  
+  output$Texto <- renderText(grafi()[[2]])
   
   
   
