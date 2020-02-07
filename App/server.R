@@ -377,8 +377,7 @@ shinyServer(function(input, output, session) {
     
     geojson <- download_map_data("countries/ve/ve-all")
     
-    data <- get_data_from_map(geojson) %>% 
-      select(`hc-key`)
+    data <- get_data_from_map(geojson) 
     
     data <- mutate(data, value = round(100 * runif(nrow(data)), 2))
     
@@ -394,7 +393,7 @@ shinyServer(function(input, output, session) {
       hc_add_series(
         mapData = mapdata, 
         data = list_parse(data), 
-        joinBy = c("hc-key"),
+        joinBy = c("hc-a2"),
         allAreas = FALSE,
         dataLabels = list(enabled = TRUE, format = '{point.value:,.0f}'),
         name = "Spending by Claim",
@@ -413,15 +412,15 @@ shinyServer(function(input, output, session) {
           ),
           point = list(
             events = list(
-              unselect = state_unselect,
-              select = state_select
+              unselect = input$unsel_statet,
+              select = input$sel_statet
             )
           )
         )        
       ) %>%
       hc_colorAxis(auxpar = NULL) %>%
-      hc_title(text = "Madicare Spending by Claim") %>%
-      hc_subtitle(text = "2015 Q4")
+      hc_title(text = "Venezuela") %>%
+      hc_subtitle(text = "Num de incidencias")
     
   })
   
