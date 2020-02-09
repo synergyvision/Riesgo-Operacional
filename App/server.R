@@ -335,7 +335,7 @@ shinyServer(function(input, output, session) {
   ####### Datos de ejemplo de una institucion financiera alemana###
   
   datasetSelect4 <- reactive({
-    datasetSelect4 <- stand2
+    datasetSelect4 <- inci
   })
   
   
@@ -378,8 +378,10 @@ shinyServer(function(input, output, session) {
     geojson <- download_map_data("countries/ve/ve-all")
     
     data <- get_data_from_map(geojson) 
+    value = 1:26
     
-    data <- mutate(data, value = round(100 * runif(nrow(data)), 2))
+    
+    data <- mutate(data, value )
     
     
     mapdata <- geojson
