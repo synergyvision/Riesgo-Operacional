@@ -36,7 +36,7 @@ shinyServer(function(input, output, session) {
                 menuItem("Requerimiento de capital", tabName = "subitem1-1", icon = icon("fal fa-database"),
                          menuSubItem("Enfoque estandarizado", tabName = "ES", icon = icon("circle-o")),
                          menuSubItem("Enfoque básico", tabName = "EB", icon = icon("circle-o")),
-                         menuSubItem("Enfoque estandarizado (II)", tabName = "ES2", icon = icon("circle-o"))
+                         menuSubItem("Enfoque de Medida Estan. ", tabName = "ES2", icon = icon("circle-o"))
                          
                 )
                 
@@ -335,7 +335,7 @@ shinyServer(function(input, output, session) {
   ####### Datos de ejemplo de una institucion financiera alemana###
   
   datasetSelect4 <- reactive({
-    datasetSelect4 <- stand2
+    datasetSelect4 <- inci
   })
   
   
@@ -371,51 +371,16 @@ shinyServer(function(input, output, session) {
   }")
     
     geojson <- download_map_data("countries/ve/ve-all")
-    #
+    
     data <- get_data_from_map(geojson) 
-    # 
-    data <- mutate(data, value = round(100 * runif(nrow(data)), 2))
-    # 
-    # 
+    value = resul(contador(data4()))
+    
+    
+    data <- mutate(data, value )
+    
+
     mapdata <- geojson
-    # 
-    # 
-    # highchart(type = "map") %>%
-    #   hc_exporting(
-    #     enabled = TRUE,
-    #     buttons = tychobratools::hc_btn_options()
-    #   ) %>%
-    #   hc_add_series(
-    #     mapData = mapdata, 
-    #     data = list_parse(data), 
-    #     joinBy = c("hc-a2"),
-    #     allAreas = FALSE,
-    #     dataLabels = list(enabled = TRUE, format = '{point.value:,.0f}'),
-    #     name = "Spending by Claim",
-    #     tooltip = list(
-    #       valueDecimals = 0, 
-    #       valuePrefix = "$"
-    #     )
-    #   ) %>% 
-    #   hc_plotOptions(
-    #     series = list(
-    #       allowPointSelect = TRUE,
-    #       states = list(
-    #         select = list(
-    #           color = "#32cd32"
-    #         )
-    #       ),
-    #       point = list(
-    #         events = list(
-    #           unselect = state_select,
-    #           select = state_unselect
-    #         )
-    #       )
-    #     )        
-    #   ) %>%
-    #   hc_colorAxis(auxpar = NULL) %>%
-    #   hc_title(text = "Venezuela") %>%
-    #   hc_subtitle(text = "Num de incidencias")
+    
     return(list(highchart(type = "map") %>%
                   hc_exporting(
                     enabled = TRUE,
@@ -450,8 +415,7 @@ shinyServer(function(input, output, session) {
                     )        
                   ) %>%
                   hc_colorAxis(auxpar = NULL) %>%
-                  hc_title(text = "Madicare Spending by Claim") %>%
-                  hc_subtitle(text = "2015 Q4"),state_unselect))
+                  hc_title(text = "Distribución de incidencias"),state_unselect))
     
     
     
@@ -465,7 +429,12 @@ shinyServer(function(input, output, session) {
   
   })
   
-  output$Texto <- renderText(grafi()[[2]])
+  output$datatable41<-renderDataTable({
+    data4()
+  },options = list(scrollX=T,scrollY=300))
+  
+  
+  output$Texto <- renderText(input$sel_state[[1]])
   
   
   

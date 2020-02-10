@@ -69,7 +69,7 @@ shinyUI(
                              
                              
 
-                             fluidRow(column(6,box(id="paso1",width = 11,background="yellow", checkboxInput( "dataset", strong("Datos de Ejemplo"), FALSE)))
+                             fluidRow(column(6,box(id="paso1",width = 12,background="yellow", checkboxInput( "dataset", strong("Datos de Ejemplo"), FALSE)))
                                ,
                                column(6,box(id="paso2",width = 12,background="yellow", checkboxInput('userFile', strong('Datos Propios'), FALSE))))
                             ),
@@ -99,8 +99,8 @@ shinyUI(
                            
                            tabPanel( title = tagList(shiny::icon("gear"), strong('Enfoque básico')),
                                      
-                                     fluidRow(column(6,box(id="paso4",background="yellow",width = 200, checkboxInput("dataset2", strong("Datos de Ejemplo"), FALSE))),
-                                              column(6,box(id="paso5",background="yellow", width = 200,checkboxInput('userFile2', strong('Datos Propios'), FALSE)))),
+                                     fluidRow(column(6,box(id="paso4",background="yellow", width = 12,checkboxInput("dataset2", strong("Datos de Ejemplo"), FALSE))),
+                                              column(6,box(id="paso5",background="yellow",width = 12,checkboxInput('userFile2', strong('Datos Propios'), FALSE)))),
                                      
                                      conditionalPanel(condition = "input.userFile2 == true",
                                                       fluidRow(
@@ -137,7 +137,7 @@ shinyUI(
                                      
                                      
                                      ),
-                           tabPanel(  tabName = "ES2",title = tagList(shiny::icon("gear"), strong('Enfoque estandarizado (II)')),
+                           tabPanel(  tabName = "ES2",title = tagList(shiny::icon("gear"), strong('Enfoque de medida estandarizada')),
                                      
                                      fluidRow(
                                        fluidRow(column(6,box(id="paso6",width = 11,background="yellow", checkboxInput("dataset3", strong("Datos de Ejemplo"), FALSE))),
@@ -245,8 +245,8 @@ shinyUI(
                                                 
                                                 tabPanel(title = tagList(shiny::icon("gear"), strong('Incidencias')),
                                                          
-                                                         fluidRow(column(6,box(background="yellow",width = 200, checkboxInput("dataset4", strong("Datos de Ejemplo"), FALSE))),
-                                                                  column(6,box(background="yellow", width = 200,checkboxInput('userFile4', strong('Datos Propios'), FALSE)))),
+                                                         fluidRow(column(6,box(background="yellow", width = 12, checkboxInput("dataset4", strong("Datos de Ejemplo"), FALSE))),
+                                                                  column(6,box(background="yellow", width = 12, checkboxInput('userFile4', strong('Datos Propios'), FALSE)))),
                                                          
                                                          conditionalPanel(condition = "input.userFile4 == true",
                                                                           fluidRow(
@@ -381,7 +381,11 @@ shinyUI(
                         #Nombre de la salida
                         #tags$b(align="left",h2(textOutput("Contenido", container = span))),
                         box(width = 8, highchartOutput("hcmap"),
-                            textOutput("Texto"))
+                            textOutput("Texto")),
+                        conditionalPanel(condition = "input.userFile4 == true|| input.dataset4 == true",
+                                         fluidRow(
+                                           box(width=12,style = "overflow-x:scroll",status = "warning",dataTableOutput('datatable41'))
+                                         ))
                         
                         
                       ))
