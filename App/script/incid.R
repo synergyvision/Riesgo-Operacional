@@ -67,6 +67,26 @@ resul <- function(datos) {
 }
 
 
+sup <- function(data,nombres){
+  
+  val = data
+  
+  val[nombres] = 0
+  
+  return(val)
+  
+}
+
+shown1 <- function(data,nombres){
+  
+  return(data[ , !(names(data) %in% nombres)])
+  
+}
+
+
+
+
+
 
 
 

@@ -373,7 +373,7 @@ shinyServer(function(input, output, session) {
     geojson <- download_map_data("countries/ve/ve-all")
     
     data <- get_data_from_map(geojson) 
-    value = resul(contador(data4()))
+    value = resul(contador(sup(data4(),input$type_filter)))
     
     
     data <- mutate(data, value )
@@ -430,11 +430,12 @@ shinyServer(function(input, output, session) {
   })
   
   output$datatable41<-renderDataTable({
-    data4()
+    
+    shown1(data4(),input$type_filter)
   },options = list(scrollX=T,scrollY=300))
   
   
-  output$Texto <- renderText(input$sel_state[[1]])
+  output$Texto <- renderText(input$type_filter[1])
   
   
   

@@ -364,17 +364,16 @@ shinyUI(
                             
                             h2("Tipo de Incidencias"),shinyWidgets::pickerInput(
                               inputId = "type_filter", 
-                              choices = c("Fraude interno","Fraude externo","Prácticas de empleo y seguridad en el lugar de trabajo",
-                                          "Clientes, productos y prácticas comerciales","Daño a los bienes físicos",
-                                          "Interrupción del negocio y fallas del sistema","Ejecución, entrega y gestión de procesos"), 
+                              choices = list("Fraude interno"="I1","Fraude externo"="I2","Prácticas de empleo y seguridad en el lugar de trabajo"="I3",
+                                             "Clientes, productos y prácticas comerciales"="I4","Daño a los bienes físicos"="I5",
+                                             "Interrupción del negocio y fallas del sistema"="I6","Ejecución, entrega y gestión de procesos"="I7")
+                                
+                                , 
                               options = list(
                                 `actions-box` = TRUE,
                                 `selected-text-format`="count"
                               ), 
-                              multiple = TRUE,
-                              selected =  c("Fraude interno","Fraude externo","Prácticas de empleo y seguridad en el lugar de trabajo",
-                                            "Clientes, productos y prácticas comerciales","Daño a los bienes físicos",
-                                            "Interrupción del negocio y fallas del sistema","Ejecución, entrega y gestión de procesos")
+                              multiple = TRUE
                             )),
                         
                         
