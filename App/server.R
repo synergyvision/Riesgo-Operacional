@@ -435,7 +435,7 @@ shinyServer(function(input, output, session) {
   },options = list(scrollX=T,scrollY=300))
   
   
-  output$Texto <- renderText(input$type_filter[1])
+ 
   
   
   

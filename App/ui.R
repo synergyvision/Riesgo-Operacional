@@ -379,8 +379,7 @@ shinyUI(
                         
                         #Nombre de la salida
                         #tags$b(align="left",h2(textOutput("Contenido", container = span))),
-                        box(width = 8, highchartOutput("hcmap"),
-                            textOutput("Texto")),
+                        box(width = 8, highchartOutput("hcmap")),
                         conditionalPanel(condition = "input.userFile4 == true|| input.dataset4 == true",
                                          fluidRow(
                                            box(width=12,style = "overflow-x:scroll",status = "warning",dataTableOutput('datatable41'))
