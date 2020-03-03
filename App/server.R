@@ -43,7 +43,8 @@ shinyServer(function(input, output, session) {
                 ,
                 
                 menuItem("Incidencias", tabName = "subitem2-1", icon = icon("fal fa-database"),
-                         menuSubItem("Distribución geográfica", tabName = "Prueba", icon = icon("circle-o"))
+                         menuSubItem("Distribución geográfica", tabName = "Prueba", icon = icon("circle-o")),
+                         menuSubItem("Distribución por incidencia", tabName = "Prueba1", icon = icon("circle-o"))
                         )
                          
                 
@@ -392,10 +393,10 @@ shinyServer(function(input, output, session) {
                     joinBy = c("hc-a2"),
                     allAreas = FALSE,
                     dataLabels = list(enabled = TRUE, format = '{point.value:,.0f}'),
-                    name = "Spending by Claim",
+                    name = "Distribución por estado",
                     tooltip = list(
                       valueDecimals = 0, 
-                      valuePrefix = "$"
+                      valuePrefix = "Num "
                     )
                   ) %>% 
                   hc_plotOptions(
@@ -434,6 +435,85 @@ shinyServer(function(input, output, session) {
     shown1(data4(),input$type_filter)
   },options = list(scrollX=T,scrollY=300))
   
+  
+  
+  
+  
+  dataprev <- reactive({
+    
+    dato <- data4()
+    
+    
+    
+    dato1 = filter(dato, Estado %in% input$type_filter1)
+    
+    
+    
+    
+    
+    result <- as.data.frame(apply(dato1[c(3,4,5,6,7,8,9)], 2, sum))
+    
+    colnames(result) <- c("Cantidad")
+    result
+    
+    
+    
+    
+    
+    
+    
+  })
+  
+
+  data5 <- reactive({
+    
+    datos <- data4()
+    
+    result <- as.data.frame(apply(datos[c(3,4,5,6,7,8,9)], 2, sum))
+    
+    colnames(result) <- c("Cantidad")
+    result
+    
+    
+    
+  })
+  
+  
+  output$datatable42<-renderDataTable({
+    
+    
+    dataprev()
+   
+    
+  },options = list(scrollX=T,scrollY=300))
+  
+  
+  
+  
+  
+  output$hcmap1 <- renderPlot({
+  
+  
+    
+    
+    data =  cbind(rownames(dataprev()),dataprev())
+    
+    colnames(data) <- c("Incidencia","Cantidad")
+    
+    ggplot(data, aes(area = Cantidad, fill = Cantidad, label = Incidencia)) +
+      geom_treemap() +
+      geom_treemap_text(fontface = "italic", colour = "white", place = "centre",
+                        grow = F)
+    
+  
+  
+    
+    
+    
+    
+    
+    
+  })
   
  
   

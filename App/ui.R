@@ -386,6 +386,43 @@ shinyUI(
                                          ))
                         
                         
+                      )),
+                    
+                    tabItem(
+                      tabName = "Prueba1",
+                      fluidRow(
+                        
+                        
+                        box(width = 4,
+                            
+                            h2("Estado"),shinyWidgets::pickerInput(
+                              inputId = "type_filter1", 
+                              choices = list("Amazonas"="Amazonas","Anzoátegui"="Anzoategui","Apure"="Apure",
+                                             "Aragua"="Aragua", "Barinas"="Barinas","Bolivar"="Bolivar", "Carabobo"="Carabobo",
+                                             "Cojedes"="Cojedes", "Delta Amacuro"="Delta Amacuro", "Dependencias Federales"="Dependencias Federales",
+                                             "Distrito Capital"="Distrito Capital",
+                                             "Falcón"="Falcon","Guárico"="Guarico","Lara"="Lara","Mérida"="Merida","Miranda"="Miranda",
+                                            "Monagas"="Monagas","Nueva Esparta"="Nueva Esparta", "Portuguesa"="Portuguesa","Sucre"="Sucre",
+                                             "Táchira"="Tachira","Trujillo"="Trujillo","Vargas"="Vargas","Yaracuy"="Yaracuy","Zulia"="Zulia")
+                              
+                              , 
+                              options = list(
+                                `actions-box` = TRUE,
+                                `selected-text-format`="count"
+                              ), 
+                              multiple = TRUE
+                            )),
+                        
+                        
+                        #Nombre de la salida
+                        #tags$b(align="left",h2(textOutput("Contenido", container = span))),
+                        box(width = 8, plotOutput("hcmap1")),
+                        conditionalPanel(condition = "input.userFile4 == true|| input.dataset4 == true",
+                                         fluidRow(
+                                           box(width=12,style = "overflow-x:scroll",status = "warning",dataTableOutput('datatable42'))
+                                         ))
+                        
+                        
                       ))
                    
                    
