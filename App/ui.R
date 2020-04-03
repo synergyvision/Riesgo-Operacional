@@ -403,7 +403,7 @@ shinyUI(
                                              "Distrito Capital"="Distrito Capital",
                                              "Falcón"="Falcon","Guárico"="Guarico","Lara"="Lara","Mérida"="Merida","Miranda"="Miranda",
                                             "Monagas"="Monagas","Nueva Esparta"="Nueva Esparta", "Portuguesa"="Portuguesa","Sucre"="Sucre",
-                                             "Táchira"="Tachira","Trujillo"="Trujillo","Vargas"="Vargas","Yaracuy"="Yaracuy","Zulia"="Zulia")
+                                             "Táchira"="Tachira","Trujillo"="Trujillo","Vargas"="Vargas","Yaracuy"="Yaracuy","Zulia"="Zulia"), selected = "Amazonas"
                               
                               , 
                               options = list(
