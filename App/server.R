@@ -132,19 +132,19 @@ shinyServer(function(input, output, session) {
   
   
   
-  output$ILDC<- renderText({a()})
-  output$SC <- renderText({b()})
-  output$FC <- renderText({c1()})
+  output$ILDC<- renderText({paste(format(a(),big.mark=".",scientific = FALSE),"Bs")    })
+  output$SC <- renderText({paste(format(b(),big.mark=".",scientific = FALSE),"Bs")})
+  output$FC <- renderText({paste(format(c1(),big.mark=".",scientific = FALSE),"Bs")})
   
   output$BI <- renderText({ 
+    paste(format(d(),big.mark=".",scientific = FALSE),"Bs")
     
-    d()
     
     })
   
   output$BIC <- renderText({ 
-    
-   e()
+    paste(format(e(),big.mark=".",scientific = FALSE),"Bs")
+   
     
   })
   
@@ -155,8 +155,8 @@ shinyServer(function(input, output, session) {
   })
   
   output$CR <- renderText({ 
-    
-    h()
+    paste(format(h(),big.mark=".",scientific = FALSE),"Bs")
+   
     
   })
   
@@ -214,8 +214,8 @@ shinyServer(function(input, output, session) {
   
   
   output$CR1 <- renderText({ 
-    
-    a1()
+    paste(format(a1(),big.mark=".",scientific = FALSE),"Bs")
+      
     
   })
   
@@ -271,8 +271,8 @@ shinyServer(function(input, output, session) {
   a2 <- reactive(rc2(cbind(data3()[2],data3()[3],data3()[4])))
   
   output$CR2 <- renderText({ 
-    
-   a2()
+    paste(format(a2(),big.mark=".",scientific = FALSE),"Bs") 
+ 
     
    
   })
